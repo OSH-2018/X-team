@@ -60,7 +60,7 @@
 
 ​	1935年之前的空中飞行器飞不回起飞点，因此也就无法重复使用。蜂王号的发明，**使得无人机能够回到起飞点**，使得这项技术更具有实际价值。
 
-​                              ![1522999687673](C:\Users\guanq\Desktop\png\蜂王号.png)
+​                              ![1522999687673](https://github.com/OSH-2018/X-team/blob/master/png/%E8%9C%82%E7%8E%8B%E5%8F%B7.png)
 
 ​									蜂王号
 
@@ -68,13 +68,13 @@
 
 ​	1986年12月首飞的先锋系列无人机**为战术指挥官提供了特定目标以及战场的实时画面**，执行了美国海军“侦察、监视并获取目标”等各种任务。这套无人定位系统的花销很小，满足了20世纪80年代美国在黎巴嫩，格林纳达以及利比亚以低代价开展无人获取目标的要求，并首次投入实战。
 
-​				 ![1522999715154](C:\Users\guanq\Desktop\png\先锋 RQ-2A.png)
+​				 ![1522999715154](https://github.com/OSH-2018/X-team/blob/master/png/%E5%85%88%E9%94%8B%20RQ-2A.png)
 
 ​									先锋 RQ-2A
 
 ​	RQ-7B幻影是无人机家族中最小的一个，被美国陆军和海军陆战队用于伊拉克和阿富汗战场。这个系统能够**定位并识别战术指挥中心****125****公里之外的目标，让指挥官的观察，指挥，行动都更加敏捷**。幻影200广泛使用于中东地区，截止2010年5月份的累积飞行时间已经达到500000小时。
 
-​				 ![1522999756286](C:\Users\guanq\Desktop\png\无人火力侦察机.png)
+​				 ![1522999756286](https://github.com/OSH-2018/X-team/blob/master/png/%E6%97%A0%E4%BA%BA%E7%81%AB%E5%8A%9B%E4%BE%A6%E5%AF%9F%E6%9C%BA.png)
 
 ​								无人火力侦察机
 
@@ -100,7 +100,7 @@ PIXHAWK世界上最出名的开源飞控的硬件厂商3DR最新推出了最新�
 
 我们采用 PIXHAWK2.4.5 作为飞行控制器，它是世界上最出名的开源飞控的硬件厂商 3DR 最新推出了最新一代飞控系统，其前身是 APM，由于 APM 的处理器已经接近满负荷，没有办法满足更复杂的运算处理，所以硬件厂商采用了目前最新标准的 32 位 ARM 处理器，第一代产品是 PX4 系列，他分为飞控处理器 PX4FMU 和输入输出接口板 PX4IO。 PX4 系列可以单独使用 PX4FMU， 但是接线很复杂，也可以配合输入输出接口板 PX4IO 来使用，但是因为没有统一的外壳，不好固定，再加上使用复杂，所以基本上属于一代实验版本。通过 PX4 系列的经验，厂商终于简化了结构，把 PX4FMU 和 PX4IO 整合到一块板子上，并加上了骨头形状的外壳，优化了硬件和走线，也就是这款第二代产品 PIXHAWK。
 
-![](C:\Users\guanq\Desktop\png\飞控.png)
+![](https://github.com/OSH-2018/X-team/blob/master/png/%E9%A3%9E%E6%8E%A7.png)
 
 Pixhawk指的是一款开源的硬件,是把原来的PX4FMU+PX4IO两块电路板合成一块,Pixhawk=PX4FMU+PX4IO。
 
@@ -108,7 +108,7 @@ Pixhawk指的是一款开源的硬件,是把原来的PX4FMU+PX4IO两块电路板
 
 ## 3. Unity
 
-![](C:\Users\guanq\Desktop\png\unity介绍图.jpg)
+![](https://github.com/OSH-2018/X-team/blob/master/png/unity%E4%BB%8B%E7%BB%8D%E5%9B%BE.jpg)
 
 
 
@@ -130,7 +130,7 @@ etc.
 
 ## 4. 树莓派
 
-![](C:\Users\guanq\Desktop\png\Raspberry_Pi_-_Model_A.jpg)
+![](https://github.com/OSH-2018/X-team/blob/master/png/Raspberry_Pi_-_Model_A.jpg)
 
 **树莓派**（英语：**Raspberry Pi**），是一款基于[Linux](https://zh.wikipedia.org/wiki/Linux)的[单片机](https://zh.wikipedia.org/wiki/%E5%8D%95%E7%89%87%E6%9C%BA)电脑。它由[英国](https://zh.wikipedia.org/wiki/%E8%8B%B1%E5%9C%8B)的树莓派基金会所开发，目的是以低价[硬件](https://zh.wikipedia.org/wiki/%E7%A1%AC%E4%BB%B6)及[自由软件](https://zh.wikipedia.org/wiki/%E8%87%AA%E7%94%B1%E8%BB%9F%E9%AB%94)促进学校的基本[计算机科学](https://zh.wikipedia.org/wiki/%E7%94%B5%E8%84%91%E7%A7%91%E5%AD%A6)教育。
 
@@ -287,17 +287,17 @@ PX4固件，在nuttx嵌入式实时操作系统上运行。采用多任务，模
 
 现有的操控无人机的方式，大多数通过抬头看着无人机，然后通过遥控器操控无人机；或者在无人机上装上摄像头，通过第一人称视角来操控无人机。而这具有一定的局限性：对于前者，抬头看无人机操控，并不是一种轻松的操控方式，长时间的抬头必然导致人身体的疲劳，并且通过眼睛看无人机，并不能精确地确定无人机的位置；对于后者，虽然通过第一人称能够很好的了解无人机周围的情况，但是这个视角所能看到的角度是有限的。比如，如果你的摄像头在前边，你就看不到两边及后边的建筑物情况，当无人机在高密度的建筑物之间飞行时，这是十分不利的。
 
-![](C:\Users\guanq\Desktop\png\抬头看无人机.jpg)
+![](C:\Users\guanq\Desktop\png\抬头看无人机.jpghttps://github.com/OSH-2018/X-team/blob/master/png/%E6%8A%AC%E5%A4%B4%E7%9C%8B%E6%97%A0%E4%BA%BA%E6%9C%BA.jpg)
 
 再者，现有的无人机地面站所显示的大多数是平面的卫星图象，其是扁平化的，并不能很好的表现出地势的起伏或者是建筑物的高低。
 
-![](C:\Users\guanq\Desktop\png\旧金山卫星.jpg)
+![](https://github.com/OSH-2018/X-team/blob/master/png/%E6%97%A7%E9%87%91%E5%B1%B1%E5%8D%AB%E6%98%9F.jpg)
 
 
 
 Exyn公司已经实现了无人机实时3D地图的创建，但是这个3D地图创建地太过粗糙，并没有很准确地反映现实世界的情况，故不可能只通过这个地图就能让人操控无人机。
 
-![](C:\Users\guanq\Desktop\png\实时3D.jpg)
+![](https://github.com/OSH-2018/X-team/blob/master/png/%E5%AE%9E%E6%97%B63D.jpg)
 
 
 
@@ -315,13 +315,13 @@ Exyn公司已经实现了无人机实时3D地图的创建，但是这个3D地图
 
 ## 1. 大疆和以色列初创公司Edgybees合作一款无人机AR竞速游戏《DronePrixAR》
 
-![专为无人机而造!AR竞速游戏《Drone Prix》.jpg](C:\Users\guanq\Desktop\png\DroneprixAR.jpg)
+![专为无人机而造!AR竞速游戏《Drone Prix》.jpg](https://github.com/OSH-2018/X-team/blob/master/png/DroneprixAR.jpg)
 
 　这款名为《Drone Prix》的AR游戏可以把在你面前的环境打造成一个无人机赛场，它能够随机生成地图奖励和障碍，考验无人机操控者们的技巧。与无人机制作专家大疆和Epson合作，《Drone Prix》专为大疆无人机进行了定制，并使用Epson Moverio BT-300无人机版智能眼镜进行操控。通过这款眼镜，玩家们可以用第一人称视角直播从无人机内置摄像头拍摄的镜像。通过这些图像，玩家们也可以更好地通过大疆 GO应用用大疆手柄操控无人机的飞行。
 
 ## 2. 无人机+AR救援服务
 
-![](C:\Users\guanq\Desktop\png\AR救援.jpg)
+![](https://github.com/OSH-2018/X-team/blob/master/png/AR%E6%95%91%E6%8F%B4.jpg)
 
 Edgybee日前在以色列耶路撒冷举行的OurCrowd峰会上展示了他们的的技术。在演示过程中（一个关于紧急响应的模拟），第一反应者身骑摩托车到达现场并部署了一架大疆无人机。他们的软件能够结合谷歌地图数据叠加无人机摄像头的实时影象，帮助工作人员查明紧急情况发生的确切地点。（※这通过摄像头实现了无人机的三维可视化，但是数据传输方面可能有一定的问题，对传输的要求比较高。）
 
@@ -343,19 +343,19 @@ Bentley Systems的研发总监Stephane Cote表示：“未来，人们将经常�
 
 ○Mission Planner地面站
 
-![img](C:\Users\guanq\Desktop\png\地面站.png)
+![img](https://github.com/OSH-2018/X-team/blob/master/png/%E5%9C%B0%E9%9D%A2%E7%AB%99.png)
 
 这是地面站的视图界面，可以看到它能显示卫星图像。
 
 ## 5. Google 3D map 
 
-![](C:\Users\guanq\Desktop\png\Google map.png)
+![](https://github.com/OSH-2018/X-team/blob/master/png/Google%20map.png)
 
 该搜索公司正在[开放](https://www.theverge.com/2018/3/14/17114494/google-maps-location-games-jurassic-world-walking-dead)其Maps实时数据并提供新的软件工具包，以帮助开发人员基于该数据构建游戏。该软件包括一个将地图信息翻译成Unity游戏引擎的工具包，以及另一个可帮助制作使用该位置数据的游戏的工具包。该组合将建筑物和其他地标转变为可定制的3D对象，并让您可以操纵这些物体以适合您的游戏世界。例如，它可以将每个真正的酒店都替换成冒险家的旅馆，或者为了检查点而添加任意兴趣点。
 
 ## 6. Exyn公司无人机实时构建3D地图并自主飞行
 
-![](C:\Users\guanq\Desktop\png\exyn.png)
+![](https://github.com/OSH-2018/X-team/blob/master/png/exyn.png)
 
 近日，初创公司 Exyn 公布了其研发的 AI 系统及演示视频。在这套系统的帮助下，视频里的无人机能够**在狭小、光线不充足、有障碍物的房间里和没有** **GPS** **导航的情况下自主飞行**。过程中，有两名实验员分别在不同时间出现并挡在无人机面前，无人机依旧能轻松躲过并最终到达目的地。Exyn 的实验员表示，**他们只是对无人机下达了一个指令：找到并飞向距离最近的门口，另外并没有对路线进行预编程，在无人机飞行期间也没有进行任何操作和干预。无人机身上融合了多个接收不同频谱的传感器，从起飞那一刻就能实时构建** **3D** **地图，并在飞行中更新地图并重新规划路线，最终飞达目的地**。Exyn 是宾夕法尼亚大学 GRASP 实验室的一个分支，旨在利用传感器融合的技术，赋予无人机如人类般自主感知环境的能力。基于前辈们在自主飞行器（包括科研、工业用无人机，以及 DJI 模型等）的理论研究基础，以及反复的实验数据，Exyn 对该 AI 系统的算法进行不断的调整。
 
