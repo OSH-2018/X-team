@@ -110,7 +110,7 @@ Pixhawk指的是一款开源的硬件,是把原来的PX4FMU+PX4IO两块电路板
 
 ![](https://github.com/OSH-2018/X-team/blob/master/png/unity%E4%BB%8B%E7%BB%8D%E5%9B%BE.jpg)
 
-
+Unity3D是由Unity Technologies开发的一个让玩家轻松创建诸如三维视频游戏、建筑可视化、实时三维动画等类型互动内容的多平台的综合型游戏开发工具，是一个全面整合的专业游戏引擎。Unity类似于Director,Blender game engine, Virtools 或 Torque Game Builder等利用交互的图型化开发环境为首要方式的软件。其编辑器运行在Windows 和Mac OS X下，可发布游戏至Windows、Mac、Wii、iPhone、WebGL（需要HTML5）、Windows phone 8和Android平台。也可以利用Unity web player插件发布网页游戏，支持Mac和Windows的网页浏览。它的网页播放器也被Mac 所支持。
 
 这是Unity 3D的官方简介：
 
@@ -126,7 +126,7 @@ Unity 2017全新功能将帮助开发者和艺术家共同创造出众的体验�
 
 3) 丰富的资源
 
-etc.
+用它可以实现许多丰富的功能，甚至建造一个无人机地面站。
 
 ## 4. 树莓派
 
