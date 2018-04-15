@@ -361,24 +361,36 @@ Bentley Systems的研发总监Stephane Cote表示：“未来，人们将经常�
 
 ## 7. ETH Zurich的教授展示新型无人机 可通过传感器空间定位
 ![](http://p3.pstatp.com/large/7f90002d741bb7f768b)
+
 在三维空间中，若想要和周围的环境融为一体，那么无人机在能够自动控制自己位置的同时，还要能够感知其他物体的位置，对于此，D’Andrea的团队打破传统给无人机配备摄影机的方式，而是用机载传感器来确定其在空间中的位置，并通过机载计算来决定它需要进行的行动。D’Andrea说外界对无人机唯一命令就是告诉无人机“起飞”或“降落”。
 
 D’Andrea的团队开发的无人机是尾坐式无人机，和其他固定翼无人机相比，它前进的效率更高。而且此类无人机能够空中悬停，从而使其在如起飞、着陆等常见动作上有更大的优势。但此类无人机容易受到风吹等外界因素的干扰。对此，D’Andrea的团队开发出新的控制架构和算法希望能够克服此问题。
 ## 8. 宾夕法尼亚大学自建地图无人机
 ![](https://m.xtopfly.com/articles/5kQd1PGJDX)
+
 宾夕法尼亚大学的 Vijay Kumar 教授带领着他的学生研发了自动飞行测量的 无人机，没有搭载GPS 模块，靠自带传感器、摄像头和激光扫描仪，扫描检测周围环境，用三角测量的方法，从周围环境中探测物体的特点，确定自己和周围物体的相对位置和距离， 然后把周围环境的特性收集起来，整合成一张地图，这个地图可以使飞行机器人在飞行过程中避免碰撞。
 ![](https://oi4atqjjs.qnssl.com/article/79130e98e4586c81d0e86312a4b5f84c.jpg?imageView2/2/w/800/format/jpg/interlace/1)
+
 他们模仿动物界的集群规律，把很多个小飞行机器人集合在一起。
+
 ![](https://oi4atqjjs.qnssl.com/article/ebbf7f3ade477430e35354e09c153061.jpg?imageView2/2/w/800/format/jpg/interlace/1)
+
 这种无人机可以对果树建模，进行三维重建，估算树冠大小、树叶面积等，判断果树是否健康。
 
 # 五. 参考资料
 http://coldhat.lofter.com/post/1d10c205_a547f76
+
 http://www.manew.com/thread-113974-1-1.html
+
 http://www.manew.com/news/7934.html
+
 http://www.manew.com/news/14721.html
+
 https://unity3d.com/cn/unity
+
 https://m.xtopfly.com/articles/5kQd1PGJDX
+
 https://www.toutiao.com/i6296714887452164609/
+
 
 
