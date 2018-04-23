@@ -62,7 +62,7 @@ APSync为树莓派配置了数据转发服务，可以通过WiFi无线连接到�
 
 如下图所示
 
-![MissionPlanner](C:\Users\guanq\Desktop\可行性报告&&中期报告\pic\RaspberryPi_MissionPlanner.jpg)
+![MissionPlanner](https://github.com/OSH-2018/X-team/blob/master/feasibility_report/pic/RaspberryPi_MissionPlanner.jpg)
 
 若连接成功，即可像USB连接、数传连接时一样，查看并配置飞控信息。
 
@@ -70,7 +70,7 @@ APSync为树莓派配置了数据转发服务，可以通过WiFi无线连接到�
 
 FileZilla可以将PC本地编写的代码上传到树莓派，同时也可以从树莓派上下载飞行日志等数据文件。
 
-1. 下载FileZilla（[32位](https://download.filezilla-project.org/client/FileZilla_3.27.1_win32-setup_bundled4.exe)，[64位](https://download.filezilla-project.org/client/FileZilla_3.27.1_win64-setup_bundled4.exe)）并安装
+1. 下载FileZilla并安装
 
 2. 打开FileZilla，输入信息并登陆：
 
