@@ -62,7 +62,9 @@ APSync为树莓派配置了数据转发服务，可以通过WiFi无线连接到�
 
 如下图所示
 
-![MissionPlanner](https://github.com/OSH-2018/X-team/blob/master/feasibility_report/pic/RaspberryPi_MissionPlanner.jpg)
+![MissionPlanner](pic/RaspberryPi_MissionPlanner.jpg)
+
+
 
 若连接成功，即可像USB连接、数传连接时一样，查看并配置飞控信息。
 
