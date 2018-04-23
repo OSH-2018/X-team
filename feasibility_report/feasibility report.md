@@ -80,7 +80,7 @@ FileZilla可以将PC本地编写的代码上传到树莓派，同时也可以从
 
    ![FileZilla setup](https://img-blog.csdn.net/20170913170527865?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGliZXJhdGV0aGV1cw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
-3. 可以像访问Windows下的文件夹一样，通过FileZilla访问树莓派的文件了
+3. 即可像访问Windows下的文件夹一样，通过FileZilla访问树莓派的文件
 
 4. **注意当前用户是否具有读/写/执行的权限**！如果权限不足，FileZilla会提示“Permission Denied”
 
