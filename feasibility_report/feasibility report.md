@@ -133,7 +133,7 @@ https://github.com/PX4/Firmware
 
   - MAVLink messages are defined in XML files in the [mavlink/message definitions](https://github.com/mavlink/mavlink/blob/master/message_definitions/) folder. The messages that are common to all systems are defined in [common.xml](https://github.com/mavlink/mavlink/blob/master/message_definitions/v1.0/common.xml) (only messages contained in this file are considered standard messages). MAVLink protocol-specific messages and vendor-specific messages are stored in separate XML files.
 
-## Unity 3D 通信部分
+## Unity 3D 
 
 ### Unity3D的特点
 
@@ -165,7 +165,19 @@ GameObject是游戏中的基本物件。GameObject是由Component组合而成的
 
 但是我们怎么操纵这个GameObject呢？这就需要引入脚本组件了，也就是MonoBehaviour。
 
-### StrangeIOC 框架
+### 设计模式
+
+#### MVC模式
+
+MVC 模式代表 Model-View-Controller（模型-视图-控制器） 模式。这种模式用于应用程序的分层开发。
+
+Model（模型） - 模型代表一个存取数据的对象或 JAVA POJO。它也可以带有逻辑，在数据变化时更新控制器。
+
+View（视图） - 视图代表模型包含的数据的可视化。
+
+Controller（控制器） - 控制器作用于模型和视图上。它控制数据流向模型对象，并在数据变化时更新视图。它使视图与模型分离开。
+
+### Unity3D上的MVC模式： StrangeIOC 框架
 
 #### IOC：
 
@@ -175,7 +187,6 @@ GameObject是游戏中的基本物件。GameObject是由Component组合而成的
 
 可以把IoC模式看做是工厂模式的升华，可以把IoC看作是一个大工厂，只不过这个大工厂里要生成的对象都是在XML文件中给出定义的，然后利用Java 的“反射”编程，根据XML中给出的类名生成相应的对象。从实现来看，IoC是把以前在工厂方法里写死的对象生成代码，改变为由XML文件来定义，也就是把工厂和对象生成这两者独立分隔开来，目的就是提高灵活性和可维护性。（**摘自百度百科**）
 
-我的理解是：把代码拆解，根据条件重新组合（注入），避免了耦合的代码执行不同操作的时候需要更改代码的情况，这依赖对不用代码块的查找。
 
 一、介绍
 
@@ -240,9 +251,9 @@ using System.IO.Ports;
 
 #### 初步构想
 
-首先通过SerialPort（.NET Framework）的方式将无人机传输过来的数据传入Unity3D，然后解码，再把数据通过StrangeIoC提供的绑定方式绑定起来，利用绑定上来的数据，完成对Unity3D里面的GameObject的创建、运作方式调整等操作。
+首先通过SerialPort(.NET framework)的方式将无人机传输过来的数据传入Unity3D，然后按照mav-link协议解码；然后按照MVC模式（strangeIOC）将所得信息传入
 
-
+控制器（Controller），实现无人机对Unity3D内部object的操作。
 
 
 
