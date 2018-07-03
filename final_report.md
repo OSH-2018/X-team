@@ -48,7 +48,7 @@
 
 ## 二、总体结构
 
-![](report_pics\1.png)
+![](report_pics/1.png)
 
 ## 三、具体实现
 
@@ -56,7 +56,7 @@
 
 因为没有现成的无人机，我们首先进行了无人机的安装，安装完如下图
 
-![](report_pics\drone.JPG)
+![](report_pics/drone.JPG)
 
 接下来进行了无人机的试飞，在这一部分我们花费了很长的时间。因为网上并没有完备的QgroundControl使用资料，所以有两个不怎么注意得到的参数设置错误我们也没注意到，导致无人机一直无法正常飞行。
 
@@ -68,7 +68,7 @@
 
 这里我们通过串口连接的方式连接两者。如下图
 
-![](report_pics\RaspberryPi_Pixhawk_wiring1.jpg)
+![](report_pics/RaspberryPi_Pixhawk_wiring1.jpg)
 
 通过飞控的Telem2端口与树莓派相连
 
@@ -84,11 +84,11 @@ sudo mavproxy.py --master=/dev/ttyS0 --baudrate 57600 --aircraft MyCopter
 
 结果如下
 
-![](report_pics\mavproxy.png)
+![](report_pics/mavproxy.png)
 
 可以看见，成功连接上了pixhwak，并且无人机现处于MANUAL状态。如图输入mode命令可以得到所有可用的状态。输入`param show`可以得到无人机的参数
 
-![](report_pics\params.png)
+![](report_pics/params.png)
 
 为了方便起见，我们讲树莓派设置成了开机自动启动连接命令，通过编辑**/etc/rc.local**来实现
 
