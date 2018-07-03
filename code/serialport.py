@@ -1,9 +1,6 @@
 import serial
 from time import sleep
-ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=0.5)
-ser.bytesize = 8
-ser.parity = 'E'
-ser.stopbits = 1 
+ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=0.5,bytesize=8,parity=serial.PARITY_NONE,stopbits=1)
 def recv(serial):  
     while True:  
         data =serial.read(30) 
