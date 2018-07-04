@@ -1,8 +1,11 @@
-﻿    using UnityEngine;
+﻿using UnityEngine;
 using System;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using strange.extensions.mediation.impl;
+using System.Threading;
+
 
 namespace airplanegame
 {
@@ -37,9 +40,8 @@ namespace airplanegame
         private LineRenderer mline;
         private Vector3 prePosition = new Vector3(0f, 0f, 0f);
         private Color lineColor;
+        private serialp easyport = new serialp();
 
-        private Vector3 playerdelta = new Vector3(0, 0, 0);
-        //嘤嘤嘤
         public CameraEnum activeCamera;
 
         void OnEnable()
@@ -50,6 +52,7 @@ namespace airplanegame
         protected override void Start()
         {
             base.Start();
+            serialp.init();
             lon = float.NaN; lat = float.NaN;
             yaw = 0; pitch = 0; roll = 0; vel = 0; handloop = 0; alt = 0;
             FirstCamera = gameObject.transform.Find("FirstCamera");
@@ -77,29 +80,24 @@ namespace airplanegame
             //lineColor= new Color(rm.Next(0,255), rm.Next(0, 255), rm.Next(0, 255), 255);
             lineColor = new Color(0,255, 0, 255);
             createLineRender();
-    
-    }
+        }
 
-    void Update()
+        void Update()
         {
             //UnityEngine.Debug.Log(lineColor);
             if (float.IsNaN(lon))
             {
                 return;
             }
-            //嘤嘤嘤
-            if (Input.GetKey(KeyCode.UpArrow))
-                playerdelta.x += 10f;
-            else if (Input.GetKey(KeyCode.DownArrow))
-                playerdelta.x -= 10f;
-            if (Input.GetKey(KeyCode.LeftArrow))
-                playerdelta.z += 10f;
-            else if (Input.GetKey(KeyCode.RightArrow))
-                playerdelta.z -= 10f;
-            if (Input.GetKey(KeyCode.A))
-                playerdelta.y += 10f;
-            else if (Input.GetKey(KeyCode.S))
-                playerdelta.y -= 10f;
+            float x = Input.GetAxis("Horizontal");
+            float y = Input.GetAxis("Vertical");
+            bool up = Input.GetKeyDown(KeyCode.A);
+            bool down = Input.GetKeyDown(KeyCode.S);
+            string z;
+            if (up) z = "1";
+            else if (down) z = "-1";
+            else z = "0";
+            serialp.serialwrite(string.Format("{0},{1},{2}", x.ToString(), y.ToString(), z.ToString()));
             if ((activeCamera==CameraEnum.FirstCamera||activeCamera==CameraEnum.PanelCamera)&&alt>500)
             {
                 gameObject.transform.localScale = new Vector3(20, 20, 20);
@@ -114,12 +112,13 @@ namespace airplanegame
                 float scale = Mathf.Max(1f, height / 200f);
                 gameObject.transform.localScale = new Vector3(scale,scale,scale);
             }
-
-            //嘤嘤嘤
-            gameObject.transform.position = new Vector3(MapLib.WorldPosToCoord(lon, lat)[0]+playerdelta.x, alt+playerdelta.y, MapLib.WorldPosToCoord(lon, lat)[1]+playerdelta.z);
-            print(gameObject.transform.position.x);
-            print((MapLib.WorldPosToCoord(lon, lat)[0] + playerdelta.x));
-            //嘤嘤嘤
+            float lon2 = serialp.getlon();
+            float lat2 = serialp.getlat();
+            float alt2 = serialp.getal();
+            print(lon2);
+            print(lat2);
+            print(alt2);
+            gameObject.transform.position = new Vector3(MapLib.WorldPosToCoord(lon2, lat2)[0], alt2, MapLib.WorldPosToCoord(lon2, lat2)[1]);
             gameObject.transform.rotation = MapLib.yawPitchRolltoRotation(yaw, -1f*pitch, -1f*roll);
             updateVelPointer(vel);
             updateYawPointer(yaw);
