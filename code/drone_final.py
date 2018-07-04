@@ -48,6 +48,7 @@ def Read_Data_From_Pixhawk(vehicle):
     Read_Data = ''
     j = 0
     cnt = 0
+    Read_Data += 'begin'
     for i in range(len(data)):
         if data[i] == ',':
             Read_Data += data[j : i]

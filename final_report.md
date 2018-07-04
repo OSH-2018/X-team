@@ -204,6 +204,7 @@ def Read_Data_From_Pixhawk(vehicle):
     Read_Data = ''
     j = 0
     cnt = 0
+    Read_Data += 'begin'
     for i in range(len(data)):
         if data[i] == ',':
             Read_Data += data[j : i]
@@ -338,8 +339,6 @@ class StartCommCommand2 : Command
 	}
 ```
 
-
-
 ##### 信号量：（另一个信号量类似）
 
 ```
@@ -372,7 +371,7 @@ public class serialp
         private Queue<string> lonq=new Queue<string>();
         private Queue<string> latq=new Queue<string>();
         private Queue<string> altq=new Queue<string>();
-        public string lastlon ="121";
+        public string lastlon ="111";
         public string lastlat = "41";
         public string lastalt = "1300";
         private int read2 = new int();
@@ -388,6 +387,7 @@ public class serialp
                 {
                     if (comm.IsOpen)
                     {
+                    	comm.ReadTo("begin");
                         lastlon = comm.ReadTo("lon");
                         lastlat = comm.ReadTo("lat");
                         lastalt = comm.ReadTo("alt");
@@ -453,6 +453,7 @@ public class serialp
         }
         public void disposeserial()
         {
+        	comm.Close();
             comm.Dispose();
             return;
         }
@@ -496,8 +497,8 @@ public class AirplanePrefabMediator : Mediator
         {
             float x = Input.GetAxis("Horizontal");
             float y = Input.GetAxis("Vertical");
-            bool up = Input.GetKeyDown(KeyCode.A);
-            bool down = Input.GetKeyDown(KeyCode.S);
+            bool up = Input.GetKey(KeyCode.Z);
+            bool down = Input.GetKey(KeyCode.X);
             string z;
             if (up) z = "1";
             else if (down) z = "-1";
@@ -508,7 +509,7 @@ public class AirplanePrefabMediator : Mediator
 
 #### 实现效果
 
-我们在树莓派上实现了一个串口，它不断地发送自减的longitude和固定的latitude，altitude过来，我在unity里把这些参数print到console中。
+我们在树莓派上实现了一个串口，它不断地发送自减（一次减少0.001）的longitude和固定的latitude，altitude过来，我在unity里把这些参数print到console中。GPS的偶尔出错可以通过错误检测来实现（例如如果前后的lon，lat，alt差距大于一个阈值，就不更新view.lon，view.lat，view.alt）。
 
 ##### 笔记本视角
 
@@ -517,6 +518,8 @@ public class AirplanePrefabMediator : Mediator
 可见程序正确地收到了数据
 
 ##### 树莓派视角
+
+这里的矢量值是我们期望的无人机速度的方向矢量，各值上限为1，考虑到无人机上行和下行的动力问题，第三位Z（表示上下）的值只有1,0,-1三个值，这样子上下就设定为“向上，悬停，向下”三个状态而没有精确定量了。
 
 ![](report_pics/7.png)
 
