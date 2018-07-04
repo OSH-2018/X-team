@@ -5,35 +5,31 @@ using System.Text;
 using System.IO;
 using System.IO.Ports;
 using System.Threading;
-using UnityEngine;
 using strange.extensions.dispatcher.eventdispatcher.api;
 using UnityEngine;
 using System.Collections;
 using strange.extensions.mediation.impl;
-
+/*
+ * 在final report中不是这份代码，这份代码没有按照strangeIOC的约定框架来编程，但是它能很快速地产生结果。
+ * final report的代码会在后面上传
+ */
 namespace airplanegame
 {
     public class serialp
     {
-        [Inject]
-        public MySignalSend mySignalSend { get; set; }
+        public static bool _continue;
+        private static SerialPort comm;
+        private static Thread readThread;
+        private static bool isRead = true;
+        private static Queue<string> lonq=new Queue<string>();
+        private static Queue<string> latq=new Queue<string>();
+        private static Queue<string> altq=new Queue<string>();
+        public static string lastlon ="121";
+        public static string lastlat = "41";
+        public static string lastalt = "1300";
+        private static int read2 = new int();
 
-        [Inject]
-        public MySignalWrite mySignalWrite { get; set; }
-
-        public bool _continue;
-        private SerialPort comm;
-        private Thread readThread;
-        private bool isRead = true;
-        private Queue<string> lonq = new Queue<string>();
-        private Queue<string> latq = new Queue<string>();
-        private Queue<string> altq = new Queue<string>();
-        public string lastlon = "121";
-        public string lastlat = "41";
-        public string lastalt = "1300";
-        private int read2 = new int();
-
-        public void serialread()
+        public static void serialread()
         {
             lonq.Enqueue(lastlon);
             latq.Enqueue(lastlat);
@@ -44,14 +40,12 @@ namespace airplanegame
                 {
                     if (comm.IsOpen)
                     {
-                        comm.ReadTo("begin");
                         lastlon = comm.ReadTo("lon");
                         lastlat = comm.ReadTo("lat");
                         lastalt = comm.ReadTo("alt");
                         lonq.Enqueue(lastlon);
                         latq.Enqueue(lastlat);
                         altq.Enqueue(lastalt);
-                        mySignalSend.Dispatch(lastlon + "lon" + lastlat + "lat" + lastalt + "alt");
                         Thread.Sleep(100);
                     }
                 }
@@ -60,14 +54,59 @@ namespace airplanegame
                 }
             }
         }
-        public void serialwrite(string message)
+        public static int getread2()
         {
-            if (message.Equals("stop"))
+            return read2;
+        }
+        public static float getlon()
+        {
+            float jvalue = new float();
+            if (lonq.Count == 0)
+            {
+                float.TryParse(lastlon, out jvalue);
+                return jvalue;
+            }
+            else
+            {
+                float.TryParse(lonq.Dequeue(), out jvalue);
+                return jvalue;
+            }
+        }
+        public static float getlat()
+        {
+            float jvalue=new float();
+            if (latq.Count == 0)
+            {
+                float.TryParse(lastlat, out jvalue);
+                return jvalue;
+            }
+            else
+            {
+                float.TryParse(latq.Dequeue(), out jvalue);
+                return jvalue;
+            }
+        }
+        public static float getal()
+        {
+            float jvalue = new float();
+            if (altq.Count == 0)
+            {
+                float.TryParse(lastalt, out jvalue);
+                return jvalue;
+            }
+            else
+            {
+                float.TryParse(altq.Dequeue(), out jvalue);
+                return jvalue;
+            }
+        }
+        public static void serialwrite(string message)
+        {
+            if (message.Equals("nmsl"))
             {
                 _continue = false;
                 readThread.Join();
                 comm.Close();
-                comm.Dispose();
                 return;
             }
             if (comm.IsOpen)
@@ -79,7 +118,7 @@ namespace airplanegame
                 catch (TimeoutException) { }
             }
         }
-        public bool init()
+        public static bool init()
         {
             comm = new SerialPort();
             comm.PortName = "COM3";
@@ -89,7 +128,6 @@ namespace airplanegame
             comm.StopBits = StopBits.One;
             comm.ReadTimeout = 500;
             comm.WriteTimeout = 500;
-            mySignalWrite.AddListener(serialwrite);
             _continue = true;
             try
             {
@@ -108,13 +146,10 @@ namespace airplanegame
             readThread.Start();
             return true;
         }
-        public void disposeserial()
+        public static void disposeserial()
         {
-            readThread.Join();
-            comm.Close();
             comm.Dispose();
             return;
         }
     }
-
 }
