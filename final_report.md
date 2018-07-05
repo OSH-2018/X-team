@@ -1,5 +1,9 @@
 # Virtual Drone详细设计报告
 
+## written by 祝冠琪、邵军阳
+
+# O、组员分工
+
 ## O、组员分工
 
 ### 原分工：
@@ -48,7 +52,23 @@
 
 ## 二、总体结构
 
-![](report_pics/1.png)
+我们的目标是实现PC-树莓派-无人机的双向通信，实现地面站操纵无人机飞行。
+
+总体结构如下所示：
+
+![ji](report_pics/1.png)
+
+如图所示，我们无人机的飞控采用pixhawk（其是一款基于ARM芯片的32位开源飞控，其硬件和软件都开源，因此衍生出很多不同的软硬件版本，最初的分销商是美国的3D Robotics）。其次，无人机的机载计算机采用Raspberry pi 3。这样，我们便可以在树莓派上面处理地面站与飞控内传来的信息。并且树莓派与飞控以及地面站之间的的通信都采用串口通信。树莓派与飞控之间的通信协议采用MAVlink（这是一款为微型飞行器设计的非常轻巧的、只由头文件构成的信息编组库）。树莓派与地面站之间的通信协议采用文本形式。
+
+其有以下四步
+
+- 调用dronekit库中的connect函数，connnect成功后，会生成一个vehicle类，其中包含无人机的各种参数（比如gps，空速）
+
+- 从笔记本接受文本信号：格式为“x,y,z”，用python的serial库的readline函数就行读取。
+- 将“x,y,z”解码为x,y,z，并进行速度的归一化，将总速度大小恒定为1m/s，调用dronekit库中的send_nav_velocity()函数设置飞机的速度。
+- 读出vehicle类中的gps信息，并通过一定转化将其传给地面站
+
+
 
 ## 三、具体实现
 
@@ -76,7 +96,7 @@
 
 在上面运行`sudo raspi-config`设置树莓派的serial，disable `serial login shell`，activate `serial interface`
 
-运行如下命令连接飞控
+连接通过ttyS0端口，并且波特率设置为57600，然后运行如下命令连接飞控
 
 ```
 sudo mavproxy.py --master=/dev/ttyS0 --baudrate 57600 --aircraft MyCopter
@@ -104,7 +124,15 @@ screen -d -m -s /bin/bash mavproxy.py --master=/dev/ttyS0 --baudrate 57600 --air
 exit 0
 ```
 
-开机后使用`sudo screen -x`便可以查看
+上面这一段代码可以使树莓派开机之后自动运行
+
+```
+sudo mavproxy.py --master=/dev/ttyS0 --baudrate 57600 --aircraft MyCopter
+```
+
+这一段命令。
+
+开机后使用在命令行输入`sudo screen -x`便可以查看
 
 每一次连接，在**/home/pi/MyCopter/logs/YYYY-MM-DD directory**以下文件都会被创建
 
@@ -112,7 +140,7 @@ exit 0
 - **flight.tlog** : 包含无人机高度，姿态等的遥测日志，可以使用一些地面站工具打开 
 - **flight.tlog.raw** :上面提到的.tlog中的所有数据加上从Pixhawk收到的任何其他串行数据，可能包括非MAVLink格式的消息，如启动字符串或调试输出 
 
-然后我们便可以在**mavproxy**中调用dronekit，输入如下语句
+然后我们便可以在**mavproxy**中调用dronekit库，并且运行事先写好的python程序来控制无人机，比如输入如下语句
 
 ```
 api start drone_final.py
@@ -168,7 +196,7 @@ def Read_From_Groundcontrol(vehicle, ser):
 vehicle = connect(connection_string,baud = baud_rate, wait_ready=True) 
 ```
 
-而得到的一个类，这是dronekit与pixhawk通信的语句。里面含有无人机的各个参数，比如无人机的gps信息，高度，俯仰角等
+而得到的一个类。connect函数是dronekit的库函数。其中connection_string是/dev/ttyS0，baud为57600 。这是dronekit与pixhawk通信的语句。vehicle类内含有无人机的各个参数，比如无人机的gps信息，高度，俯仰角等
 
 **ser**是通过
 
@@ -176,7 +204,7 @@ vehicle = connect(connection_string,baud = baud_rate, wait_ready=True)
 ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=0.5,bytesize=8,parity=serial.PARITY_NONE,stopbits=1)
 ```
 
-打开的树莓派串口，通过这个能让树莓派与地面站通信。
+这里serial.Serial()是serial的库函数，serial是python用来处理串口通信的库函数。打开的树莓派串口，通过这个能让树莓派与地面站通信。通信端口为/dev/ttyUSB0，波特率为115200，每次传输8个字节的大小，校验位为0，停止位为1。
 
 ##### 树莓派与飞控间串口通信
 
@@ -194,7 +222,9 @@ def Read_From_Groundcontrol(vehicle, ser):
         sleep(0.02)
 ```
 
-其中**recv**函数是从串口中每0.02秒读取地面站发来的信息，然后传送给**send_nav_velocity**来设置无人机的速度。
+为了向飞控传输控制信号，那么就需要先从地面站接收控制信号，所以我们写了**Read_From_Groundcontrol()**函数。其中**recv()**函数是从串口中读取地面站发来的信息，因为地面站与树莓派之间使用文本通信，所以调用了**serial**库中的**readline()**函数来读取,他能够一次读取一行形式为"x,y,z"的数据,`data =serial.readline() `,最后将data返回。将**recv()**生成的数据data传送给**send_nav_velocity()**来设置无人机的速度。
+
+通过调用**time**库内的**sleep()**函数，`sleep(0.02)`使这段代码每0.02秒运行一次
 
 ##### 树莓派与地面站间串口通信
 
@@ -227,7 +257,30 @@ def Send_To_Groundcontrol(vehicle, ser):
         sleep(0.02) 
 ```
 
-先通过**Read_Data_From_Pixhawk(vehicle)**函数读取无人机的参数，其中`vehicle.location.global_frame`是全球定位信息（经纬度，高度相对于平均海平面）。读取出来以后，将它转换成**x+'lon'+y+'lat'+z+'alt'** 的格式，便于地面站接收。
+**Send_To_Groundcontrol()**是树莓派读取飞控的位置信息，然后传送给地面站，使其能够在地图上实时地显示出无人机的位置。先通过**Read_Data_From_Pixhawk(vehicle)**函数读取无人机的参数，其中vehicle是之前**dronekit**库的**connect()**函数生成的一个类，`vehicle.location.global_frame`是全球定位信息（经纬度，高度相对于平均海平面）,但是读取出来以后并不能直接用于传输，因此我们写了一小段代码
+
+```
+Read_Data += 'begin'
+for i in range(len(data)):
+        if data[i] == ',':
+            Read_Data += data[j : i]
+            if cnt == 0:
+                Read_Data += 'lon'
+                cnt += 1
+            elif cnt == 1:
+                Read_Data += 'lat'
+                cnt += 1
+            j = i + 1
+        elif i == len(data) - 1:
+            Read_Data += data[j : i]
+            Read_Data += 'alt'
+```
+
+这段代码将读取出来为“x,y,z”形式的数据转换为"begin**x**lon**y**lat**z**alt"形式的数据，便于地面站的接收。
+
+然后调用**serial**库内的**write()**函数将数据传输给地面站, `ser.write(Read_data)`。
+
+通过调用**time**库内的**sleep()**函数，`sleep(0.02)`使这段代码每0.02秒运行一次。
 
 #### c、设置无人机速度
 
@@ -267,9 +320,9 @@ def changedata(data):
     return velocity
 ```
 
-我们使用**send_nav_velocity**函数来设置无人机速度，但因为传送过来的是字符串，所以我们先用**changedata**来得到可用的数据格式。为了简化操作，我们将最后得到的速度归一化。当我们遇到没有接收到地面站信号时，我们采用让飞机悬停的方式，即速度变为[0，0，0]。
+我们使用**send_nav_velocity**函数来设置无人机速度，但因为传送过来的是"x,y,z"形式的字符串，所以我们先用**changedata**来得到可用的数据格式：我们将“x,y,z”的字符串内的x,y,z分别转化为float数据，然后加入名为velocity的list内。为了简化操作逻辑，我们将最后得到的速度归一化，也就是说，我们将收到的x,y,z数据都处以sqrt(x^2+y^2+z^2)，这样无人机在三维空间中的合成速度就会变为1m/s。而当我们遇到没有接收到地面站信号时，我们采用让飞机悬停的方式，即速度变为[0，0，0]，这样无人机就会停留在原地。
 
-最后因为我们树莓派与地面站之间的串口是全双工的，所以我们开两个线程
+最后因为我们树莓派与地面站之间的串口是全双工的，因此我们可以同时进行读与写的操作。运用python的**threading**库，我们就可以开两个线程。代码如下
 
 ```
 threads = []
@@ -279,17 +332,34 @@ t2 = threading.Thread(target=Send_To_Groundcontrol,args=(vehicle,ser))
 threads.append(t2)
 ```
 
+我们用**threading**库内的**Thread()**函数，将我们所需要的进程加入名为threads的list内
+
+然后用如下代码进行运行
+
+```
+if __name__ == '__main__':
+    for t in threads:
+        t.setDaemon(True)
+        t.start()
+```
+
 这样，便可以同时进行读和写了
 
 ### 2、Unity地面站
 
 #### 框架：StrangeIOC
 
+这是一个MVCS+IOC框架，核心是绑定，具体内容在官方文档里有详细描述。
+
 ![](report_pics/5.png)
 
-
+官方文档：http://strangeioc.github.io/strangeioc/exec.html
 
 我在这个项目开始的时候得到了助教的一份代码，进而了解到软件工程的一些概念，包括控制反转和MVCS设计模式。抱着循序学习的态度，我认真学习了MVCS框架和控制反转的概念，并按照这个框架进行我的设计。
+
+助教的代码部分已经实现了地图的显示以及GUI效果，所以我的工作重点放在树莓派和Unity3D的通信上。
+
+※实际上，助教（李子天）说他并没有打通PC-树莓派-无人机的通信流，所以我不再使用助教的SerialPort类，而采用自己实现的方式。
 
 ##### 通信部分
 
@@ -301,19 +371,33 @@ threads.append(t2)
 
 ![](report_pics/2.png)
 
+这个图中的signal调度机制是我们的核心，signal是一个特殊的类，可以给它设置接听者（addlistener）和使用它发送信号（dispatch），signal的dispatch可以发送一个数据，而一旦dispatch产生，则接听者会被调用，并且得到dispatch的数据作为它的参数。这里有两个信号量：mysignalsend和mysignalwrite。
+
+其它的用到的strangeIOC概念都在图中标明了。
+
 ##### 其他部分
 
 由于其他部分助教的代码已经实现得很完善（实际上我们的工作是尝试去打通这个模型的通信，所以我们的重点应该是通信），所以我没有进行大幅度的修改。但是我修正了一个错误：
 
-原代码跑着跑着会跳出错误: Object is destroyed but you're still trying to access it.
+原代码运行时会跳出错误: Object is destroyed but you're still trying to access it.
 
 然后我发现这段代码会直接调用tile.GetComponent()而不做异常检测，所以我加了个判断。
+
+问题解决。
 
 ![](report_pics/3.png)
 
 #### 代码
 
+代码所在路径如图
+
+![](report_pics/10.png)
+
+※以下代码都是在助教（李子天）的原代码中扩展而来，相关代码已经push到仓库的code文件夹中，可以将其加载（或者替换原文件）到助教的相应文件夹中使用。
+
 ##### context：
+
+此代码在scripts文件夹中。
 
 ```
 injectionBinder.Bind<serialp>().ToSingleton();
@@ -322,6 +406,8 @@ injectionBinder.Bind<MySignalWrite>().ToSingleton();
 ```
 
 ##### startcommand：（程序初始化的时候创建串口用）
+
+此段代码在scripts\controller文件夹中
 
 ```
 class StartCommCommand2 : Command
@@ -339,7 +425,11 @@ class StartCommCommand2 : Command
 	}
 ```
 
+代码中实例化了一个serialp（我们的串口类）
+
 ##### 信号量：（另一个信号量类似）
+
+此段代码在scripts\signal文件夹中
 
 ```
 using System;
@@ -354,6 +444,14 @@ namespace airplanegame
 ```
 
 ##### serialport：
+
+此段代码在scripts\service文件夹中
+
+使用常规的串口实现方式（两个线程）。
+
+此处有一个信号（mysignalwrite）的接受者，将接收到的信号直接发送到树莓派去（由树莓派解码）。
+
+还有一个信号（mysignalsend）在此dispatch，发送一串格式为“**x**lon**y**lat**z**alt的字符串
 
 ```
 public class serialp
@@ -462,6 +560,10 @@ public class serialp
 
 ##### AirplanePrefabMediator：（只选出了展现我实现的功能的部分）
 
+此段代码在scripts\view文件夹中，有一个信号（mysignalwrite）在此dispatch，发送的信号是键盘控制信号（格式为x，y，z）
+
+另一个信号（mysignalsend）的接受者也在此处，将得到的string解码为lon，lat和alt，更新到view类中。
+
 ```
 public class AirplanePrefabMediator : Mediator
     {
@@ -497,8 +599,8 @@ public class AirplanePrefabMediator : Mediator
         {
             float x = Input.GetAxis("Horizontal");
             float y = Input.GetAxis("Vertical");
-            bool up = Input.GetKey(KeyCode.Z);
-            bool down = Input.GetKey(KeyCode.X);
+            bool up = Input.GetKeyDown(KeyCode.A);
+            bool down = Input.GetKeyDown(KeyCode.S);
             string z;
             if (up) z = "1";
             else if (down) z = "-1";
@@ -509,7 +611,7 @@ public class AirplanePrefabMediator : Mediator
 
 #### 实现效果
 
-我们在树莓派上实现了一个串口，它不断地发送自减（一次减少0.001）的longitude和固定的latitude，altitude过来，我在unity里把这些参数print到console中。GPS的偶尔出错可以通过错误检测来实现（例如如果前后的lon，lat，alt差距大于一个阈值，就不更新view.lon，view.lat，view.alt）。
+我们在树莓派上实现了一个串口，它不断地发送自减的longitude和固定的latitude，altitude过来，我在unity里把这些参数print到console中。
 
 ##### 笔记本视角
 
@@ -518,8 +620,6 @@ public class AirplanePrefabMediator : Mediator
 可见程序正确地收到了数据
 
 ##### 树莓派视角
-
-这里的矢量值是我们期望的无人机速度的方向矢量，各值上限为1，考虑到无人机上行和下行的动力问题，第三位Z（表示上下）的值只有1,0,-1三个值，这样子上下就设定为“向上，悬停，向下”三个状态而没有精确定量了。
 
 ![](report_pics/7.png)
 
