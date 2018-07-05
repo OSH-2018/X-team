@@ -1,8 +1,6 @@
 # Virtual Drone详细设计报告
 
-## written by 祝冠琪、邵军阳
-
-# O、组员分工
+written by 祝冠琪、邵军阳
 
 ## O、组员分工
 
