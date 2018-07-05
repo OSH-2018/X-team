@@ -84,6 +84,18 @@ written by 祝冠琪、邵军阳
 
 ### 1、无人机与树莓派
 
+主要查看资料：
+
+http://ardupilot.org/dev/docs/raspberry-pi-via-mavlink.html
+
+Dronekit库：
+
+http://python.dronekit.io
+
+https://github.com/dronekit
+
+https://github.com/dronekit/dronekit-python
+
 #### a.树莓派与飞控的连接
 
 首先是安装树莓派的系统，这里我们选择了 RASPBIAN STRETCH WITH DESKTOP 来作为我们的系统。
@@ -94,7 +106,22 @@ written by 祝冠琪、邵军阳
 
 通过飞控的Telem2端口与树莓派相连
 
-接下来我们安装了两个库分别是`mavproxy`和`dronekit`以及使用它们所需的库
+接下来我们安装了两个库分别是`mavproxy`和`dronekit`以及使用它们所需的库：
+
+```
+sudo apt-get update    #Update the list of packages in the software center
+sudo apt-get install screen python-wxgtk2.8 python-matplotlib python-opencv python-pip python-numpy python-dev libxml2-dev libxslt-dev python-lxml
+sudo pip install future
+sudo pip install pymavlink
+sudo pip install mavproxy
+
+sudo apt-get install python-pip python-dev python-numpy python-opencv python-serial python-pyparsing python-wxgtk2.8 libxml2-dev libxslt-dev
+sudo pip install droneapi
+echo "module load droneapi.module.api" >> ~/.mavinit.scr
+
+pip install dronekit
+pip install dronekit-sitl
+```
 
 在上面运行`sudo raspi-config`设置树莓派的serial，disable `serial login shell`，activate `serial interface`
 
@@ -348,6 +375,14 @@ if __name__ == '__main__':
 这样，便可以同时进行读和写了
 
 ### 2、Unity地面站
+
+主要查看资料：
+
+Unity3D Manual：https://docs.unity3d.com/Manual/index.html
+
+StrangeIoC：http://strangeioc.github.io/strangeioc/exec.html
+
+还有C#和各种设计模式/框架的学习是通过youtube上的视频，网上搜索的资料等进行学习的。
 
 #### 框架：StrangeIOC
 
@@ -627,7 +662,13 @@ public class AirplanePrefabMediator : Mediator
 
 由于我在unity的update()函数中调度串口写，所以发送的频率是很高的，这是我按下一些键后树莓派收到的矢量值（以字符串形式表示）。在我不按键的时候是0,0,0。
 
-## 四、未来展望
+## 四、实现效果
+
+我们期望实现的效果如结题报告PPT中的视频所示。
+
+不过遗憾的是，无人机的硬件问题最终还是没有解决好，树莓派和地面站的通信已经打通，但是无人机无法在树莓派上成功连接（无法识别无人机，我们检查了所有代码，确定是硬件问题）。由于时间仓促，我们把已经完成的代码提交了上去（已经全部完成，只是无法连接无人机，debug还没有完成），希望以后有机会的话能够真正把这个项目做完。
+
+## 五、未来展望
 
 ### 无人机市场前景开阔
 
@@ -653,7 +694,7 @@ public class AirplanePrefabMediator : Mediator
 
 http://tech.sina.com.cn/it/2018-03-12/doc-ifyscsmu6161931.shtml?qq-pf-to=pcqq.c2c
 
-## 五、学习感想
+## 六、学习感想
 
 ### 收获
 
